@@ -1,6 +1,5 @@
 package com.deathmotion.antihealthindicator;
 
-import com.deathmotion.antihealthindicator.loader.SnakeYamlLoader;
 import com.deathmotion.antihealthindicator.schedulers.FabricScheduler;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -15,8 +14,6 @@ public class AHIFabric implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        SnakeYamlLoader.loadSnakeYaml();
-
         ServerLifecycleEvents.SERVER_STARTING.register(this::onEnable);
         ServerLifecycleEvents.SERVER_STOPPING.register(this::onDisable);
     }
