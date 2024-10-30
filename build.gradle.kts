@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     antihealthindicator.`java-conventions`
@@ -20,109 +21,80 @@ dependencies {
     implementation(project(":platforms:fabric"))
 }
 
+val javaVersion = JavaLanguageVersion.of(21)
+val minecraftVersion = "1.21.1"
+val jvmArgsExternal = listOf("-Dcom.mojang.eula.agree=true")
+
+val sharedBukkitPlugins = runPaper.downloadPluginsSpec {
+    url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/spigot/build/libs/packetevents-spigot-2.6.0-SNAPSHOT.jar")
+    url("https://github.com/ViaVersion/ViaVersion/releases/download/5.1.0/ViaVersion-5.1.0.jar")
+    url("https://github.com/ViaVersion/ViaBackwards/releases/download/5.1.0/ViaBackwards-5.1.0.jar")
+}
+
+// Helper function to set up ShadowJar task
+fun configureShadowJar(task: ShadowJar, classifier: String?, excludeFabric: Boolean) {
+    task.apply {
+        archiveFileName.set("${rootProject.name}-${project.version}${classifier?.let { "-$it" } ?: ""}.jar")
+        archiveClassifier = classifier
+        configurations = listOf(project.configurations.runtimeClasspath.get())
+
+        dependencies {
+            if (excludeFabric) exclude(project(":platforms:fabric"))
+            else {
+                exclude(project(":platforms:bukkit"))
+                exclude(project(":platforms:bungeecord"))
+                exclude(project(":platforms:velocity"))
+                exclude(project(":platforms:sponge"))
+            }
+        }
+
+        relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
+        relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
+
+        manifest { attributes["Implementation-Version"] = rootProject.version }
+    }
+}
+
 tasks {
-    jar {
-        enabled = false
-    }
+    jar { enabled = false }
 
-    // Task for creating the combined JAR for all non-Fabric platforms
     val combinedShadowJar by creating(ShadowJar::class) {
-        archiveFileName.set("${rootProject.name}-${project.version}.jar")
-        archiveClassifier = null
-        configurations = listOf(project.configurations.runtimeClasspath.get())
-
-        dependencies {
-            exclude(project(":platforms:fabric"))
-        }
-
-        relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
-        relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
-
-        manifest {
-            attributes["Implementation-Version"] = rootProject.version
-        }
+        configureShadowJar(this, null, excludeFabric = true)
     }
 
-    // Task for creating the Fabric-specific JAR
     val fabricShadowJar by creating(ShadowJar::class) {
-        archiveFileName.set("${rootProject.name}-fabric-${project.version}.jar")
-        configurations = listOf(project.configurations.runtimeClasspath.get())
-
-        dependencies {
-            exclude(project(":platforms:bukkit"))
-            exclude(project(":platforms:bungeecord"))
-            exclude(project(":platforms:velocity"))
-            exclude(project(":platforms:sponge"))
-        }
-
-        relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
-        relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
-
-        manifest {
-            attributes["Implementation-Version"] = rootProject.version
-        }
+        configureShadowJar(this, "fabric", excludeFabric = false)
     }
 
-    assemble {
-        dependsOn(combinedShadowJar, fabricShadowJar)
-    }
-
-    // 1.8.8 - 1.16.5 = Java 8
-    // 1.17           = Java 16
-    // 1.18 - 1.20.4  = Java 17
-    // 1-20.5+        = Java 21
-    val version = "1.21.1"
-    val javaVersion = JavaLanguageVersion.of(21)
-
-    val jvmArgsExternal = listOf(
-        "-Dcom.mojang.eula.agree=true"
-    )
-
-    val sharedBukkitPlugins = runPaper.downloadPluginsSpec {
-        url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/spigot/build/libs/packetevents-spigot-2.6.0-SNAPSHOT.jar")
-        url("https://github.com/ViaVersion/ViaVersion/releases/download/5.1.0/ViaVersion-5.1.0.jar")
-        url("https://github.com/ViaVersion/ViaBackwards/releases/download/5.1.0/ViaBackwards-5.1.0.jar")
-    }
+    assemble { dependsOn(combinedShadowJar, fabricShadowJar) }
 
     runServer {
-        minecraftVersion(version)
-        runDirectory = rootDir.resolve("run/paper/$version")
-
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = javaVersion
-        }
+        minecraftVersion(minecraftVersion)
+        runDirectory.set(rootDir.resolve("run/paper/$minecraftVersion"))
+        javaLauncher.set(project.javaToolchains.launcherFor { languageVersion.set(JavaLanguageVersion.of(21)) })
+        jvmArgs = jvmArgsExternal
 
         downloadPlugins {
             from(sharedBukkitPlugins)
             url("https://ci.lucko.me/job/spark/462/artifact/spark-bukkit/build/libs/spark-1.10.116-bukkit.jar")
             url("https://download.luckperms.net/1560/bukkit/loader/LuckPerms-Bukkit-5.4.145.jar")
         }
-
-        jvmArgs = jvmArgsExternal
     }
 
     runPaper.folia.registerTask {
-        minecraftVersion(version)
-        runDirectory = rootDir.resolve("run/folia/$version")
-
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = javaVersion
-        }
-
-        downloadPlugins {
-            from(sharedBukkitPlugins)
-        }
-
+        minecraftVersion(minecraftVersion)
+        runDirectory.set(rootDir.resolve("run/folia/$minecraftVersion"))
+        javaLauncher.set(project.javaToolchains.launcherFor { languageVersion.set(JavaLanguageVersion.of(21)) })
         jvmArgs = jvmArgsExternal
+
+        downloadPlugins { from(sharedBukkitPlugins) }
     }
 
     runVelocity {
         velocityVersion("3.3.0-SNAPSHOT")
-        runDirectory = rootDir.resolve("run/velocity/")
-
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = javaVersion
-        }
+        runDirectory.set(rootDir.resolve("run/velocity"))
+        javaLauncher.set(project.javaToolchains.launcherFor { languageVersion.set(JavaLanguageVersion.of(21)) })
+        jvmArgs = jvmArgsExternal
 
         downloadPlugins {
             url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/velocity/build/libs/packetevents-velocity-2.6.0-SNAPSHOT.jar")
