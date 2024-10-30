@@ -6,17 +6,17 @@ plugins {
 
 dependencies {
     implementation(project(":common"))
-    implementation(libs.snakeyaml)
+    include(libs.snakeyaml)
 
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.layered {
         officialMojangMappings()
     })
 
+    modImplementation("me.lucko:fabric-permissions-api:0.3.3")
     modCompileOnly(libs.packetevents.fabric)
     modCompileOnly("net.fabricmc:fabric-loader:${property("loader_version")}")
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-    modImplementation("me.lucko:fabric-permissions-api:0.3.3")
 }
 
 loom {
