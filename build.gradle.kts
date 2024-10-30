@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 plugins {
     antihealthindicator.`java-conventions`
@@ -21,17 +20,6 @@ dependencies {
     implementation(project(":platforms:fabric"))
 }
 
-val javaVersion = JavaLanguageVersion.of(21)
-val minecraftVersion = "1.21.1"
-val jvmArgsExternal = listOf("-Dcom.mojang.eula.agree=true")
-
-val sharedBukkitPlugins = runPaper.downloadPluginsSpec {
-    url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/spigot/build/libs/packetevents-spigot-2.6.0-SNAPSHOT.jar")
-    url("https://github.com/ViaVersion/ViaVersion/releases/download/5.1.0/ViaVersion-5.1.0.jar")
-    url("https://github.com/ViaVersion/ViaBackwards/releases/download/5.1.0/ViaBackwards-5.1.0.jar")
-}
-
-// Helper function to set up ShadowJar task
 fun configureShadowJar(task: ShadowJar, classifier: String?, excludeFabric: Boolean) {
     task.apply {
         archiveFileName.set("${rootProject.name}-${project.version}${classifier?.let { "-$it" } ?: ""}.jar")
@@ -48,11 +36,27 @@ fun configureShadowJar(task: ShadowJar, classifier: String?, excludeFabric: Bool
             }
         }
 
-        relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
-        relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
+        relocate(
+            "net.kyori.adventure.text.serializer.gson",
+            "io.github.retrooper.packetevents.adventure.serializer.gson"
+        )
+        relocate(
+            "net.kyori.adventure.text.serializer.legacy",
+            "io.github.retrooper.packetevents.adventure.serializer.legacy"
+        )
 
         manifest { attributes["Implementation-Version"] = rootProject.version }
     }
+}
+
+val javaVersion = JavaLanguageVersion.of(21)
+val minecraftVersion = "1.21.1"
+val jvmArgsExternal = listOf("-Dcom.mojang.eula.agree=true")
+
+val sharedBukkitPlugins = runPaper.downloadPluginsSpec {
+    url("https://ci.codemc.io/job/retrooper/job/packetevents/lastSuccessfulBuild/artifact/spigot/build/libs/packetevents-spigot-2.6.0-SNAPSHOT.jar")
+    url("https://github.com/ViaVersion/ViaVersion/releases/download/5.1.0/ViaVersion-5.1.0.jar")
+    url("https://github.com/ViaVersion/ViaBackwards/releases/download/5.1.0/ViaBackwards-5.1.0.jar")
 }
 
 tasks {
