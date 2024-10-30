@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":platforms:velocity"))
     implementation(project(":platforms:bungeecord"))
     implementation(project(":platforms:sponge"))
+    implementation(project(":platforms:fabric"))
 }
 
 tasks {

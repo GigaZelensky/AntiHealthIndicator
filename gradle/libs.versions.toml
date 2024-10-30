@@ -11,6 +11,7 @@ run-paper = "2.3.0"
 lombok = "1.18.30"
 shadow = "8.3.0"
 spongeGradle = "2.2.0"
+fabric-loom = "1.8.11"
 
 [libraries]
 adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
@@ -23,6 +24,7 @@ packetevents-spigot = { group = "com.github.retrooper", name = "packetevents-spi
 packetevents-velocity = { group = "com.github.retrooper", name = "packetevents-velocity", version.ref = "packetevents" }
 packetevents-bungeecord = { group = "com.github.retrooper", name = "packetevents-bungeecord", version.ref = "packetevents" }
 packetevents-sponge = { group = "com.github.retrooper", name = "packetevents-sponge", version.ref = "packetevents" }
+packetevents-fabric = { group = "com.github.retrooper", name = "packetevents-fabric", version.ref = "packetevents" }
 snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 betterreload-api = { group = "com.github.amnoah.betterreload", name = "api", version.ref = "betterreload" }
@@ -39,3 +41,4 @@ run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }
 run-velocity = { id = "xyz.jpenilla.run-velocity", version.ref = "run-paper" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 spongeGradle = { id = "org.spongepowered.gradle.plugin", version.ref = "spongeGradle" }
+fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }

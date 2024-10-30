@@ -11,6 +11,7 @@ repositories {
     mavenCentral()
     maven("https://repo.codemc.io/repository/maven-releases/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://maven.fabricmc.net/")
 }
 
 java {
@@ -21,7 +22,7 @@ java {
 tasks {
     processResources {
         inputs.property("version", project.version)
-        filesMatching(listOf("plugin.yml", "bungee.yml", "velocity-plugin.json")) {
+        filesMatching(listOf("plugin.yml", "bungee.yml", "velocity-plugin.json", "fabric.mod.json")) {
             expand("version" to project.version)
         }
     }

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "antihealthindicator",
+  "version": "${version}",
+  "name": "AntiHealthIndicator",
+  "description": "Prevent health indicators from being displayed on the client",
+  "authors": [
+    "Bram"
+  ],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "antihealthindicator/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.deathmotion.antihealthindicator.AHIFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "packetevents": ">=2.6.0-SNAPSHOT"
+  }
+}

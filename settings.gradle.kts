@@ -1,5 +1,9 @@
 pluginManagement {
     repositories {
+        maven {
+            name = "FabricMC"
+            url = uri("https://maven.fabricmc.net/")
+        }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -26,3 +30,4 @@ include(":platforms:bukkit")
 include(":platforms:velocity")
 include(":platforms:bungeecord")
 include(":platforms:sponge")
+include(":platforms:fabric")
