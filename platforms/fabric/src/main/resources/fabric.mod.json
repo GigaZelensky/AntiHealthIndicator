@@ -10,14 +10,16 @@
   "contact": {},
   "license": "GPL-3.0",
   "icon": "antihealthindicator/icon.png",
-  "environment": "*",
+  "environment": "server",
   "entrypoints": {
-    "main": [
+    "server": [
       "com.deathmotion.antihealthindicator.AHIFabric"
     ]
   },
   "depends": {
+    "fabric-api": "*",
     "fabricloader": ">=0.15.11",
-    "packetevents": ">=2.6.0-SNAPSHOT"
+    "packetevents": ">=2.6.0-SNAPSHOT",
+    "fabric-permissions-api-v0": "*"
   }
 }

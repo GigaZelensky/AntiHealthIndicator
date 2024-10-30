@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     antihealthindicator.`java-conventions`
     alias(libs.plugins.shadow)
@@ -23,9 +25,35 @@ tasks {
         enabled = false
     }
 
-    shadowJar {
-        archiveFileName = "${rootProject.name}-${project.version}.jar"
+    // Task for creating the combined JAR for all non-Fabric platforms
+    val combinedShadowJar by creating(ShadowJar::class) {
+        archiveFileName.set("${rootProject.name}-${project.version}.jar")
         archiveClassifier = null
+        configurations = listOf(project.configurations.runtimeClasspath.get())
+
+        dependencies {
+            exclude(project(":platforms:fabric"))
+        }
+
+        relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
+        relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
+
+        manifest {
+            attributes["Implementation-Version"] = rootProject.version
+        }
+    }
+
+    // Task for creating the Fabric-specific JAR
+    val fabricShadowJar by creating(ShadowJar::class) {
+        archiveFileName.set("${rootProject.name}-fabric-${project.version}.jar")
+        configurations = listOf(project.configurations.runtimeClasspath.get())
+
+        dependencies {
+            exclude(project(":platforms:bukkit"))
+            exclude(project(":platforms:bungeecord"))
+            exclude(project(":platforms:velocity"))
+            exclude(project(":platforms:sponge"))
+        }
 
         relocate("net.kyori.adventure.text.serializer.gson", "io.github.retrooper.packetevents.adventure.serializer.gson")
         relocate("net.kyori.adventure.text.serializer.legacy", "io.github.retrooper.packetevents.adventure.serializer.legacy")
@@ -36,7 +64,7 @@ tasks {
     }
 
     assemble {
-        dependsOn(shadowJar)
+        dependsOn(combinedShadowJar, fabricShadowJar)
     }
 
     // 1.8.8 - 1.16.5 = Java 8
