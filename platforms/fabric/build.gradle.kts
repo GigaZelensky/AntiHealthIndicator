@@ -13,8 +13,8 @@ dependencies {
         officialMojangMappings()
     })
 
-    modImplementation("me.lucko:fabric-permissions-api:0.3.3")
     modCompileOnly(libs.packetevents.fabric)
+    modCompileOnly("me.lucko:fabric-permissions-api:0.3.3")
     modCompileOnly("net.fabricmc:fabric-loader:${property("loader_version")}")
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
 }

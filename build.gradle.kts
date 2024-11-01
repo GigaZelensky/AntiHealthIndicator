@@ -29,7 +29,7 @@ dependencies {
 
 fun configureShadowJar(task: ShadowJar, classifier: String?, configurationName: String) {
     task.apply {
-        archiveFileName.set("${rootProject.name}-${project.version}${classifier?.let { "-$it" } ?: ""}.jar")
+        archiveFileName.set("${rootProject.name}${classifier?.let { "-$it" } ?: ""}-${project.version}.jar")
         archiveClassifier = null
         configurations = listOf(project.configurations.getByName(configurationName))
 
