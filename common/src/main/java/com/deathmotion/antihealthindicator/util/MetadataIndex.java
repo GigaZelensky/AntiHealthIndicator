@@ -16,97 +16,144 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.deathmotion.antihealthindicator.util;
+ package com.deathmotion.antihealthindicator.util;
 
-import com.github.retrooper.packetevents.protocol.player.ClientVersion;
-
-public class MetadataIndex {
-
-    public final int AIR_TICKS;
-    public final int HEALTH;
-    public final int ABSORPTION;
-    public final int XP;
-    public final int TAMABLE_TAMED;
-    public final int TAMABLE_OWNER;
-
-    public MetadataIndex(ClientVersion version) {
-        AIR_TICKS = 1;
-        HEALTH = getHealthIndex(version);
-        ABSORPTION = getAbsorptionIndex(version);
-        XP = getXPIndex(version);
-        TAMABLE_TAMED = getTameIndex(version);
-        TAMABLE_OWNER = getOwnerIndex(version);
-    }
-
-    private int getHealthIndex(ClientVersion version) {
-        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
-            return 9;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            return 8;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
-            return 7;
-        } else {
-            return 6;
-        }
-    }
-
-    private int getAbsorptionIndex(ClientVersion version) {
-        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
-            return 15;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
-            return 14;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            return 13;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
-            return 11;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_9)) {
-            return 10;
-        } else {
-            return 17;
-        }
-    }
-
-    private int getXPIndex(ClientVersion version) {
-        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
-            return 16;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
-            return 15;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            return 14;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
-            return 12;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_9)) {
-            return 11;
-        } else {
-            return 18;
-        }
-    }
-
-    private int getTameIndex(ClientVersion version) {
-        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
-            return 17;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
-            return 16;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            return 15;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_12)) {
-            return 13;
-        } else {
-            return 16;
-        }
-    }
-
-    private int getOwnerIndex(ClientVersion version) {
-        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
-            return 18;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
-            return 17;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
-            return 16;
-        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_12)) {
-            return 14;
-        } else {
-            return 17;
-        }
-    }
-}
+ import com.github.retrooper.packetevents.protocol.player.ClientVersion;
+ 
+ public class MetadataIndex {
+ 
+     public final int AIR_TICKS;
+     public final int HEALTH;
+     public final int ABSORPTION;
+     public final int XP;
+     public final int TAMABLE_TAMED;
+     public final int TAMABLE_OWNER;
+     
+     // Added indices for rideable entity stats
+     public final int MOVEMENT_SPEED;
+     public final int JUMP_STRENGTH;
+     public final int INVENTORY_COLUMNS;
+ 
+     public MetadataIndex(ClientVersion version) {
+         AIR_TICKS = 1;
+         HEALTH = getHealthIndex(version);
+         ABSORPTION = getAbsorptionIndex(version);
+         XP = getXPIndex(version);
+         TAMABLE_TAMED = getTameIndex(version);
+         TAMABLE_OWNER = getOwnerIndex(version);
+         
+         // Initialize the new indices based on version
+         MOVEMENT_SPEED = getMovementSpeedIndex(version);
+         JUMP_STRENGTH = getJumpStrengthIndex(version);
+         INVENTORY_COLUMNS = getInventoryColumnsIndex(version);
+     }
+ 
+     private int getHealthIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 9;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 8;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
+             return 7;
+         } else {
+             return 6;
+         }
+     }
+ 
+     private int getAbsorptionIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 15;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 14;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 13;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
+             return 11;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_9)) {
+             return 10;
+         } else {
+             return 17;
+         }
+     }
+ 
+     private int getXPIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 16;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 15;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 14;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_10)) {
+             return 12;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_9)) {
+             return 11;
+         } else {
+             return 18;
+         }
+     }
+ 
+     private int getTameIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 17;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 16;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 15;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_12)) {
+             return 13;
+         } else {
+             return 16;
+         }
+     }
+ 
+     private int getOwnerIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 18;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 17;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 16;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_12)) {
+             return 14;
+         } else {
+             return 17;
+         }
+     }
+     
+     // New indices for rideable entity attributes
+     private int getMovementSpeedIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 19;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 18;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 17;
+         } else {
+             return 18;
+         }
+     }
+     
+     private int getJumpStrengthIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 20;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 19;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 18;
+         } else {
+             return 19;
+         }
+     }
+     
+     private int getInventoryColumnsIndex(ClientVersion version) {
+         if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+             return 21;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_15)) {
+             return 20;
+         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_14)) {
+             return 19;
+         } else {
+             return 20;
+         }
+     }
+ }

@@ -93,6 +93,20 @@ spoof:
         gradual:
           enabled: true
 
+    # Prevents hack clients from displaying useful information about rideable entities like
+    # horses, donkeys, mules, and llamas (speed, jump height, inventory slots, etc.)
+    ride-stats:
+      # If enabled, stats about rideable entities will be spoofed to prevent hacked clients from displaying accurate information
+      enabled: true
+      
+      # If enabled, the movement speed of rideable entities will be spoofed, preventing accurate speed calculation
+      spoof-movement-speed: true
+      
+      # If enabled, the jump strength of rideable entities will be spoofed, preventing accurate jump height calculation
+      spoof-jump-strength: true
+      
+      # If enabled, the inventory slots of llamas will be spoofed, preventing accurate display of storage capacity
+      spoof-inventory-slots: true
 
     # If enabled, hides the absorption of other players.
     absorption:

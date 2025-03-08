@@ -16,71 +16,81 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.deathmotion.antihealthindicator.data;
+ package com.deathmotion.antihealthindicator.data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class Settings {
-    private boolean Debug = false;
-
-    private UpdateChecker UpdateChecker = new UpdateChecker();
-    private boolean WorldSeed = false;
-    private boolean FoodSaturation = true;
-    private boolean TeamScoreboard = true;
-    private EntityData EntityData = new EntityData();
-    private Items Items = new Items();
-
-    @Getter
-    @Setter
-    public static class UpdateChecker {
-        private boolean Enabled = true;
-        private boolean PrintToConsole = true;
-        private boolean NotifyInGame = true;
-    }
-
-    @Getter
-    @Setter
-    public static class EntityData {
-        private boolean Enabled = true;
-        private boolean PlayersOnly = false;
-        private boolean AirTicks = true;
-
-        private boolean Health = true;
-        private boolean IgnoreVehicles = true;
-
-        private Wolves Wolves = new Wolves();
-        private IronGolems IronGolems = new IronGolems();
-        private boolean Absorption = true;
-        private boolean Xp = true;
-
-        @Getter
-        @Setter
-        public static class Wolves {
-            private boolean Enabled = true;
-            private boolean Tamed = false;
-            private boolean Owner = true;
-        }
-
-        @Getter
-        @Setter
-        public static class IronGolems {
-            private boolean Enabled = true;
-            private boolean Gradual = true;
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class Items {
-        private boolean Enabled = true;
-        private boolean StackAmount = true;
-
-        private boolean Durability = true;
-        private boolean BrokenElytra = true;
-
-        private boolean Enchantments = true;
-    }
-}
+ import lombok.Getter;
+ import lombok.Setter;
+ 
+ @Getter
+ @Setter
+ public class Settings {
+     private boolean Debug = false;
+ 
+     private UpdateChecker UpdateChecker = new UpdateChecker();
+     private boolean WorldSeed = false;
+     private boolean FoodSaturation = true;
+     private boolean TeamScoreboard = true;
+     private EntityData EntityData = new EntityData();
+     private Items Items = new Items();
+ 
+     @Getter
+     @Setter
+     public static class UpdateChecker {
+         private boolean Enabled = true;
+         private boolean PrintToConsole = true;
+         private boolean NotifyInGame = true;
+     }
+ 
+     @Getter
+     @Setter
+     public static class EntityData {
+         private boolean Enabled = true;
+         private boolean PlayersOnly = false;
+         private boolean AirTicks = true;
+ 
+         private boolean Health = true;
+         private boolean IgnoreVehicles = true;
+ 
+         private Wolves Wolves = new Wolves();
+         private IronGolems IronGolems = new IronGolems();
+         private RideStats RideStats = new RideStats();
+         private boolean Absorption = true;
+         private boolean Xp = true;
+ 
+         @Getter
+         @Setter
+         public static class Wolves {
+             private boolean Enabled = true;
+             private boolean Tamed = false;
+             private boolean Owner = true;
+         }
+ 
+         @Getter
+         @Setter
+         public static class IronGolems {
+             private boolean Enabled = true;
+             private boolean Gradual = true;
+         }
+         
+         @Getter
+         @Setter
+         public static class RideStats {
+             private boolean Enabled = true;
+             private boolean SpoofMovementSpeed = true;
+             private boolean SpoofJumpStrength = true;
+             private boolean SpoofInventorySlots = true;
+         }
+     }
+ 
+     @Getter
+     @Setter
+     public static class Items {
+         private boolean Enabled = true;
+         private boolean StackAmount = true;
+ 
+         private boolean Durability = true;
+         private boolean BrokenElytra = true;
+ 
+         private boolean Enchantments = true;
+     }
+ }
