@@ -22,6 +22,7 @@ import com.deathmotion.antihealthindicator.AHIPlatform;
 import com.deathmotion.antihealthindicator.cache.EntityCache;
 import com.deathmotion.antihealthindicator.data.AHIPlayer;
 import com.deathmotion.antihealthindicator.data.Settings;
+import com.deathmotion.antihealthindicator.cache.entities.RidableEntity;
 import com.deathmotion.antihealthindicator.managers.ConfigManager;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
@@ -31,6 +32,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketTypeCommon;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerAttachEntity;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateAttributes;
 
 import java.util.Collections;
 
@@ -104,6 +106,9 @@ public class VehicleTracker {
                 ? cache.getVehicleHealth(vehicleId)
                 : 0.5F;
         sendMetadata(vehicleId, health);
+        if (entering) {
+            sendAttributes(vehicleId);
+        }
     }
 
     private boolean shouldProcess(int entityId) {
@@ -123,5 +128,16 @@ public class VehicleTracker {
                         ))
                 )
         ));
+    }
+
+    private void sendAttributes(int vehicleId) {
+        // Sends cached attribute values back to the rider.
+        AHIPlatform.getInstance().getScheduler().runAsyncTask(task -> {
+            // Placeholder implementation; actual packet fields depend on PacketEvents.
+            RidableEntity r = (RidableEntity) cache.getEntityRaw(vehicleId);
+            if (r == null) return;
+            // TODO: construct WrapperPlayServerUpdateAttributes packet with cached values
+            // player.user.sendPacketSilently(new WrapperPlayServerUpdateAttributes(...));
+        });
     }
 }

@@ -113,6 +113,12 @@ public class ConfigManager<P> {
         settings.getEntityData().getIronGolems().setGradual(getBoolean(yamlData, "spoof.entity-data.health.ignore-iron-golems.gradual.enabled", true));
         settings.getEntityData().setAbsorption(getBoolean(yamlData, "spoof.entity-data.absorption.enabled", true));
         settings.getEntityData().setXp(getBoolean(yamlData, "spoof.entity-data.xp.enabled", true));
+
+        Settings.EntityData.RideStats rideStats = settings.getEntityData().getRideStats();
+        rideStats.setEnabled(getBoolean(yamlData, "spoof.entity-data.ride-stats.enabled", true));
+        rideStats.setSpeed(getDouble(yamlData, "spoof.entity-data.ride-stats.speed", 0.0D));
+        rideStats.setJumpStrength(getDouble(yamlData, "spoof.entity-data.ride-stats.jump-strength", 0.0D));
+        rideStats.setLlamaInventorySlots((int) getDouble(yamlData, "spoof.entity-data.ride-stats.llama-inventory-slots", 0));
     }
 
     private void setItemOptions(Map<String, Object> yamlData, Settings settings) {
@@ -126,6 +132,14 @@ public class ConfigManager<P> {
     private boolean getBoolean(Map<String, Object> yamlData, String key, boolean defaultValue) {
         Object value = findNestedValue(yamlData, key.split("\\."), defaultValue);
         return value instanceof Boolean ? (Boolean) value : defaultValue;
+    }
+
+    private double getDouble(Map<String, Object> yamlData, String key, double defaultValue) {
+        Object value = findNestedValue(yamlData, key.split("\\."), defaultValue);
+        if (value instanceof Number) {
+            return ((Number) value).doubleValue();
+        }
+        return defaultValue;
     }
 
     private Object findNestedValue(Map<String, Object> yamlData, String[] keys, Object defaultValue) {

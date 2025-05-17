@@ -36,6 +36,7 @@ public class SpoofManager {
                 .put(GamemodeSpoofer.class, new GamemodeSpoofer(player))
                 .put(ScoreboardSpoofer.class, new ScoreboardSpoofer(player))
                 .put(FoodSaturationSpoofer.class, new FoodSaturationSpoofer(player))
+                .put(RideStatsSpoofer.class, new RideStatsSpoofer(player))
                 .build();
     }
 

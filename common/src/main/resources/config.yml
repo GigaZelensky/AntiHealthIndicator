@@ -104,6 +104,16 @@ spoof:
     xp:
       enabled: true
 
+    # If enabled, hides riding statistics like max speed and jump height from other clients.
+    ride-stats:
+      enabled: true
+      # Value used when spoofing movement speed of rideable entities.
+      speed: 0.0
+      # Value used when spoofing horse jump strength.
+      jump-strength: 0.0
+      # Number of inventory slots shown for llamas when spoofing.
+      llama-inventory-slots: 0
+
     # If enabled, hides certain information about other players their held or wearing items.
     items:
       enabled: true
