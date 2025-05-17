@@ -7,6 +7,7 @@ plugins {
 dependencies {
     api(project(":api"))
     compileOnlyApi(libs.packetevents.api)
+    compileOnlyApi(libs.packetevents.spigot)
     compileOnlyApi(libs.bundles.adventure)
     compileOnlyApi(libs.bundles.adventure.serializers)
     compileOnlyApi(libs.snakeyaml)

@@ -22,6 +22,7 @@ import com.deathmotion.antihealthindicator.cache.entities.CachedEntity;
 import com.deathmotion.antihealthindicator.cache.entities.RidableEntity;
 import com.deathmotion.antihealthindicator.cache.trackers.EntityTracker;
 import com.deathmotion.antihealthindicator.cache.trackers.VehicleTracker;
+import com.deathmotion.antihealthindicator.AHIPlatform;
 import com.deathmotion.antihealthindicator.data.AHIPlayer;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import lombok.Getter;
@@ -81,7 +82,12 @@ public class EntityCache {
                 if (oldPid != newPassengerId) {
                     passengerIndex.remove(oldPid);
                     r.setPassengerId(newPassengerId);
-                    passengerIndex.put(newPassengerId, vehicleId);
+                    if (newPassengerId >= 0) {
+                        passengerIndex.put(newPassengerId, vehicleId);
+                    } else {
+                        AHIPlatform.getInstance().getLogManager().debug(
+                                "Removed passenger " + oldPid + " from vehicle " + vehicleId);
+                    }
                 }
             }
             return ce;
