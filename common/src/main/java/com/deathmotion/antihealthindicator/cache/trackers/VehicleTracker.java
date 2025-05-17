@@ -33,8 +33,11 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerAt
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateAttributes;
+import com.github.retrooper.packetevents.protocol.entity.attribute.Attribute;
+import com.github.retrooper.packetevents.protocol.entity.attribute.Attributes;
 
 import java.util.Collections;
+import java.util.Arrays;
 
 public class VehicleTracker {
     private final AHIPlayer player;
@@ -133,11 +136,17 @@ public class VehicleTracker {
     private void sendAttributes(int vehicleId) {
         // Sends cached attribute values back to the rider.
         AHIPlatform.getInstance().getScheduler().runAsyncTask(task -> {
-            // Placeholder implementation; actual packet fields depend on PacketEvents.
             RidableEntity r = (RidableEntity) cache.getEntityRaw(vehicleId);
             if (r == null) return;
-            // TODO: construct WrapperPlayServerUpdateAttributes packet with cached values
-            // player.user.sendPacketSilently(new WrapperPlayServerUpdateAttributes(...));
+
+            Attribute speed = new Attribute(Attributes.GENERIC_MOVEMENT_SPEED, r.getMaxSpeed());
+            Attribute jump = new Attribute(Attributes.HORSE_JUMP_STRENGTH, r.getJumpStrength());
+            Attribute llama = new Attribute(Attributes.LLAMA_STRENGTH, r.getLlamaInventorySlots());
+
+            player.user.sendPacketSilently(new WrapperPlayServerUpdateAttributes(
+                    vehicleId,
+                    Arrays.asList(speed, jump, llama)
+            ));
         });
     }
 }
