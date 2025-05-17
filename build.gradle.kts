@@ -40,7 +40,11 @@ dependencies {
 
 tasks {
     jar {
-        enabled = false
+        enabled = true
+        archiveFileName = "${rootProject.name}-${ext["versionNoHash"]}-PEless.jar"
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang"
+        }
     }
 
     shadowJar {
@@ -62,7 +66,7 @@ tasks {
     }
 
     assemble {
-        dependsOn(shadowJar)
+        dependsOn(shadowJar, jar)
     }
 
     // 1.8.8 - 1.16.5 = Java 8

@@ -60,6 +60,7 @@ The plugin includes various spoofing features:
 - Player Saturation
 - Player Gamemode
 - Player XP
+- Rideable Stats
 - Item Durability
 - Item Enchantments
 - Item Stack Amount
@@ -120,8 +121,8 @@ Operators (OPs) have these permissions by default, except for `AntiHealthIndicat
 
    ```cmd
    .\gradlew build
-   ```
-   </details>
+  ```
+  </details>
 
 ## Credits
 
