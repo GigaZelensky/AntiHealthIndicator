@@ -55,6 +55,7 @@ public class Settings {
         private IronGolems ironGolems = new IronGolems();
         private boolean absorption = true;
         private boolean xp = true;
+        private RideStats rideStats = new RideStats();
 
         @Getter
         @Setter
@@ -69,6 +70,15 @@ public class Settings {
         public static class IronGolems {
             private boolean enabled = true;
             private boolean gradual = true;
+        }
+
+        @Getter
+        @Setter
+        public static class RideStats {
+            private boolean enabled = true;
+            private double speed = 0.0D;
+            private double jumpStrength = 0.0D;
+            private int llamaInventorySlots = 0;
         }
     }
 
