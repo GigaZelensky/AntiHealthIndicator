@@ -2,9 +2,8 @@ name: Build & Upload
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: ["**"]
+  workflow_dispatch:
 
 jobs:
   build:
