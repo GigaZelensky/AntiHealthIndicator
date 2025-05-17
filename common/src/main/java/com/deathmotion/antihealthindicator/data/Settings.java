@@ -32,6 +32,7 @@ public class Settings {
     private boolean teamScoreboard = true;
     private EntityData entityData = new EntityData();
     private Items items = new Items();
+    private RideStats rideStats = new RideStats();
 
     @Getter
     @Setter
@@ -82,5 +83,15 @@ public class Settings {
         private boolean brokenElytra = true;
 
         private boolean enchantments = true;
+    }
+
+    @Getter
+    @Setter
+    public static class RideStats {
+        private boolean enabled = true;
+        private boolean speed = true;
+        private boolean jumpHeight = true;
+        private boolean maxHealth = true;
+        private boolean llamaSlots = true;
     }
 }
