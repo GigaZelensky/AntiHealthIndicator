@@ -127,3 +127,10 @@ spoof:
       # client-side, otherwise the client will render the item as if not enchanted.
       enchantments:
         enabled: true
+
+  ride-stats:
+    enabled: true
+    speed: true
+    jump-height: true
+    max-health: true
+    llama-slots: true

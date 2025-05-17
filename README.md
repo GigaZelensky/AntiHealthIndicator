@@ -63,6 +63,21 @@ The plugin includes various spoofing features:
 - Item Durability
 - Item Enchantments
 - Item Stack Amount
+- Ride Stats (speed, jump height, max health, llama slots)
+
+### Ride Stats Configuration
+
+Add the following section to `config.yml` to control spoofing values:
+
+```yaml
+spoof:
+  ride-stats:
+    enabled: true       # Master toggle for ride stats spoofing
+    speed: true         # Mask movement speed
+    jump-height: true   # Mask jump height
+    max-health: true    # Mask maximum health
+    llama-slots: true   # Mask llama inventory slots
+```
 
 ## Commands
 

@@ -30,6 +30,7 @@ public class MetadataIndex {
     public final int XP;
     public final int TAMABLE_TAMED;
     public final int TAMABLE_OWNER;
+    public final int LLAMA_STRENGTH;
 
     public MetadataIndex(ClientVersion version) {
         if (!AHIPlatform.getInstance().isProxy()) {
@@ -42,6 +43,7 @@ public class MetadataIndex {
         XP = getXPIndex(version);
         TAMABLE_TAMED = getTameIndex(version);
         TAMABLE_OWNER = getOwnerIndex(version);
+        LLAMA_STRENGTH = getLlamaStrengthIndex(version);
     }
 
     private int getHealthIndex(ClientVersion version) {
@@ -111,6 +113,16 @@ public class MetadataIndex {
             return 16;
         } else if (version.isNewerThanOrEquals(ClientVersion.V_1_12)) {
             return 14;
+        } else {
+            return 17;
+        }
+    }
+
+    private int getLlamaStrengthIndex(ClientVersion version) {
+        if (version.isNewerThanOrEquals(ClientVersion.V_1_17)) {
+            return 20;
+        } else if (version.isNewerThanOrEquals(ClientVersion.V_1_13)) {
+            return 19;
         } else {
             return 17;
         }
