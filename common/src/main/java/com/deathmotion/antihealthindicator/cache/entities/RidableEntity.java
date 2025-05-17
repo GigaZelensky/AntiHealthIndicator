@@ -29,6 +29,11 @@ public class RidableEntity extends CachedEntity {
     private float health;
     private int passengerId;
 
+    // Additional attributes used by the RideStatsSpoofer
+    private double maxSpeed;
+    private double jumpStrength;
+    private int llamaInventorySlots;
+
     @Override
     public void processMetaData(EntityData<?> metaData, AHIPlayer player) {
         if (metaData.getIndex() == player.metadataIndex.HEALTH) {

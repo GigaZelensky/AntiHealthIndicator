@@ -7,6 +7,8 @@ plugins {
 dependencies {
     api(project(":api"))
     compileOnlyApi(libs.packetevents.api)
+    // Include platform-specific PacketEvents classes for attributes
+    compileOnlyApi(libs.packetevents.spigot)
     compileOnlyApi(libs.bundles.adventure)
     compileOnlyApi(libs.bundles.adventure.serializers)
     compileOnlyApi(libs.snakeyaml)
