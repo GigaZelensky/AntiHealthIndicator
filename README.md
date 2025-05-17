@@ -60,9 +60,17 @@ The plugin includes various spoofing features:
 - Player Saturation
 - Player Gamemode
 - Player XP
+- Rideable Stats
 - Item Durability
 - Item Enchantments
 - Item Stack Amount
+
+### Rideable Stats Spoofing
+
+When enabled, rideable entity attributes such as movement speed, jump strength
+and llama inventory size are replaced with configurable values for everyone
+except the current rider. This prevents hacked clients from accurately reading
+those stats from other players' mounts.
 
 ## Commands
 
@@ -120,8 +128,14 @@ Operators (OPs) have these permissions by default, except for `AntiHealthIndicat
 
    ```cmd
    .\gradlew build
-   ```
-   </details>
+  ```
+  </details>
+
+## Testing Rideable Stats Spoofing
+
+1. Enable the `ride-stats` section in `config.yml` and restart the server.
+2. Mount a horse or other rideable entity with two players online.
+3. Verify that observers only see the spoofed values while the rider sees the real stats.
 
 ## Credits
 
