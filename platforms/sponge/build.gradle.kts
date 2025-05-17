@@ -42,7 +42,7 @@ sponge {
             }
             dependency("packetevents") {
                 loadOrder(PluginDependency.LoadOrder.AFTER)
-                version("2.5.1-SNAPSHOT")
+                version("2.8.1-SNAPSHOT")
                 optional(false)
             }
         }
