@@ -98,6 +98,7 @@ public class ConfigManager<P> {
 
         setEntityDataOptions(yamlData, settings);
         setItemOptions(yamlData, settings);
+        setRideStatsOptions(yamlData, settings);
     }
 
     private void setEntityDataOptions(Map<String, Object> yamlData, Settings settings) {
@@ -121,6 +122,14 @@ public class ConfigManager<P> {
         settings.getItems().setDurability(getBoolean(yamlData, "spoof.entity-data.items.durability.enabled", true));
         settings.getItems().setBrokenElytra(getBoolean(yamlData, "spoof.entity-data.items.durability.broken-elytra.enabled", true));
         settings.getItems().setEnchantments(getBoolean(yamlData, "spoof.entity-data.items.enchantments.enabled", true));
+    }
+
+    private void setRideStatsOptions(Map<String, Object> yamlData, Settings settings) {
+        settings.getRideStats().setEnabled(getBoolean(yamlData, "spoof.ride-stats.enabled", true));
+        settings.getRideStats().setSpeed(getBoolean(yamlData, "spoof.ride-stats.speed", true));
+        settings.getRideStats().setJumpHeight(getBoolean(yamlData, "spoof.ride-stats.jump-height", true));
+        settings.getRideStats().setMaxHealth(getBoolean(yamlData, "spoof.ride-stats.max-health", true));
+        settings.getRideStats().setLlamaSlots(getBoolean(yamlData, "spoof.ride-stats.llama-slots", true));
     }
 
     private boolean getBoolean(Map<String, Object> yamlData, String key, boolean defaultValue) {
